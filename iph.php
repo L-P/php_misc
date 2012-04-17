@@ -13,12 +13,33 @@ function get_size_from_query() {
 	if(empty($_SERVER['QUERY_STRING']))
 		return null;
 
-	$query = explode('x', $_SERVER['QUERY_STRING']);
+	$matches = array();
+	preg_match('`\d+(x|\*|⋅|×)\d+`i', $_SERVER['QUERY_STRING'], $matches);
+	if(count($matches) != 2)
+		return null;
+
+	$query = explode($matches[1], $matches[0]);
 	if(count($query) != 2)
 		return null;
 
 	list($x, $y) = array_map('intval', $query);
 	return (object) compact('x', 'y');
+}
+
+
+/** Fetch the requested image color.
+ * \returns (int) : image color.
+ * */
+function get_filling_from_query() {
+	if(empty($_SERVER['QUERY_STRING']))
+		return null;
+
+	$matches = array();
+	preg_match('`[a-f0-9]{6}`i', $_SERVER['QUERY_STRING'], $matches);
+	if(!count($matches))
+		return null;
+
+	return (int) base_convert($matches[0], 16, 10);
 }
 
 
@@ -30,7 +51,7 @@ function get_size_from_query() {
  * */
 function imageborder(&$img, $size, $color = null, $thickness = 4) {
 	if(!$color)
-		$color = imagecolorallocate($img, 0, 0, 0);
+		$color = 0;
 
 	$offset = floor($thickness/2);
 	$box = (object) array(
@@ -67,10 +88,18 @@ function print_png($img) {
 /// Script entry point.
 function main() {
 	$size = get_size_from_query();
+	$filling = get_filling_from_query();
+
+	if(!$size)
+		return;
 
 	$img = imagecreatetruecolor($size->x, $size->y);
-	$filling = imagecolorallocate($img, 231, 241, 240);
+
+	if(!$filling)
+		$filling = 0xE7F1F0;
+
 	imagefill($img, 0, 0, $filling);
+//	imageborder($img, $size, null, 2);
 
 	print_png($img);
 }
