@@ -32,11 +32,11 @@ function get_filling_from_query() {
 		return null;
 
 	$matches = array();
-	preg_match('`\W*([a-f0-9]{6})\W*`i', $_SERVER['QUERY_STRING'], $matches);
-	if(count($matches) != 2)
+	preg_match('`[a-f0-9]{6}`i', $_SERVER['QUERY_STRING'], $matches);
+	if(!count($matches))
 		return null;
 
-	return (int) base_convert($matches[1], 16, 10);
+	return (int) base_convert($matches[0], 16, 10);
 }
 
 
