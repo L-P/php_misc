@@ -25,7 +25,7 @@ function get_size_from_query() {
 
 
 /** Fetch the requested image color.
- * \returns (int) : image color.
+ * \return (int) : image color.
  * */
 function get_filling_from_query() {
 	if(empty($_SERVER['QUERY_STRING']))
