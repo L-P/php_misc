@@ -1,10 +1,11 @@
 <?php
 /** Image PlaceHolder for PHP.
- * Usage : iph.php?<WIDTH>x<HEIGHT>
- * Ex : iph.php?800x600
+ * Usage : iph.php?<WIDTH>x<HEIGHT>/<COLOR>
+ * Ex : iph.php?800x600/FF00FF
  * */
 
 return main();
+
 
 /** Fetch the requested image size from $_SERVER['QUERY_STRING'].
  * \returns ({x:int, y:int}) : queried image size.
@@ -18,11 +19,7 @@ function get_size_from_query() {
 	if(count($matches) != 2)
 		return null;
 
-	$query = explode($matches[1], $matches[0]);
-	if(count($query) != 2)
-		return null;
-
-	list($x, $y) = array_map('intval', $query);
+	list($x, $y) = array_map('intval', explode($matches[1], $matches[0]));
 	return (object) compact('x', 'y');
 }
 
@@ -35,11 +32,11 @@ function get_filling_from_query() {
 		return null;
 
 	$matches = array();
-	preg_match('`[a-f0-9]{6}`i', $_SERVER['QUERY_STRING'], $matches);
-	if(!count($matches))
+	preg_match('`\W*([a-f0-9]{6})\W*`i', $_SERVER['QUERY_STRING'], $matches);
+	if(count($matches) != 2)
 		return null;
 
-	return (int) base_convert($matches[0], 16, 10);
+	return (int) base_convert($matches[1], 16, 10);
 }
 
 
@@ -88,19 +85,13 @@ function print_png($img) {
 /// Script entry point.
 function main() {
 	$size = get_size_from_query();
-	$filling = get_filling_from_query();
+	$filling = get_filling_from_query() ?: 0xE7F1F0;
 
 	if(!$size)
 		return;
 
 	$img = imagecreatetruecolor($size->x, $size->y);
-
-	if(!$filling)
-		$filling = 0xE7F1F0;
-
 	imagefill($img, 0, 0, $filling);
-//	imageborder($img, $size, null, 2);
-
 	print_png($img);
 }
 
