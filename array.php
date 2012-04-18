@@ -1,6 +1,6 @@
 <?php
 
-/** Returns a self-combined array.
+/** Return a 'self-combined' array.
  * Ex : array('a', 'b') : array('a' => 'a', 'b' => 'b')
  * This function can take one array as a parameter or one or more scalar values 
  * to be used as key/values.
@@ -19,7 +19,7 @@ function array_combine_self() {
 }
 
 
-/** Returns an array containing the values of a specific key/column from
+/** Return an array containing the values of a specific key/column from
  * an array of associative arrays.
  * \param $array (array) : array to pluck.
  * \param $field (string) : field name.
@@ -27,11 +27,12 @@ function array_combine_self() {
  * \return array.
  * */
 function array_pluck(array $array, $field, $filter = null) {
-	$filter = $filter ?: function($v) { return true; };
+	if($filter)
+		$array = array_filter($array, $filter);
+
 	$final = array();
 	foreach($array as $v) {
-		if($filter($v))
-			$final[] = $v[$field];
+		$final[] = $v[$field];
 	}
 	return $final;
 }
