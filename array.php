@@ -48,7 +48,7 @@ function array_pluck(array $array, $field, $filter = null) {
  * */
 function array_to_object($data) {
 	if(is_array($data) && (count($data) != count($data, COUNT_RECURSIVE)))
-		return (object) array_map('to_object', $data);
+		return (object) array_map('array_to_object', $data);
 	else
 		return (object) $data;
 }
