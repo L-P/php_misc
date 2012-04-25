@@ -37,3 +37,19 @@ function array_pluck(array $array, $field, $filter = null) {
 	return $final;
 }
 
+
+/** Convert recursively arrays and any other data to an object via the (object) cast.
+ * This function will not clone existing objects, change their type nor iterate
+ * on them. References and object contents are preserved. If foo contains an
+ * object baz and `bar = to_object(foo)`, foo and bar will have a reference to
+ * the same object baz.
+ * \param $data (mixed) : data to convert.
+ * \return (stdClass) : converted data.
+ * */
+function array_to_object($data) {
+	if(is_array($data) && (count($data) != count($data, COUNT_RECURSIVE)))
+		return (object) array_map('to_object', $data);
+	else
+		return (object) $data;
+}
+
