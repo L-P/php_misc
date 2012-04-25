@@ -56,8 +56,17 @@ function array_is_multidimensional(array $array) {
  * \return (stdClass) : converted data.
  * */
 function array_to_object($data) {
-	if(is_array($data))
-		return (object) (array_is_multidimensional($data) ? array_map('array_to_object', $data) : $data);
+	return is_array($data) ? (object) array_map('array_to_object', $data) : $data;
+}
+
+
+/** Converts recursively a stdClass to an array.
+ * This function will only change the type of stdClass instances, other
+ * objects will be left untouched.
+ * */
+function object_to_array($data) {
+	if(is_array($data) || (is_object($data) && $data instanceof stdClass))
+		return array_map('object_to_array', (array) $data);
 	else
 		return $data;
 }
