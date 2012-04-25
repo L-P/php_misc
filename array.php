@@ -63,6 +63,8 @@ function array_to_object($data) {
 /** Converts recursively a stdClass to an array.
  * This function will only change the type of stdClass instances, other
  * objects will be left untouched.
+ * \param $data (mixed) : array or stdObject to convert.
+ * \return (array) : resulting array.
  * */
 function object_to_array($data) {
 	if(is_array($data) || (is_object($data) && $data instanceof stdClass))
