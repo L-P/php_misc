@@ -38,7 +38,16 @@ function array_pluck(array $array, $field, $filter = null) {
 }
 
 
-/** Convert recursively arrays and any other data to an object via the (object) cast.
+/** Return true if the array is multidimensional (ie. contains another array).
+ * \param $array (array) : array to check.
+ * \return true if the array is multidimensional, false otherwise.
+ * */
+function array_is_multidimensional(array $array) {
+	return count($array) != count($array, COUNT_RECURSIVE);
+}
+
+
+/** Convert recursively arrays an object via the (object) cast.
  * This function will not clone existing objects, change their type nor iterate
  * on them. References and object contents are preserved. If foo contains an
  * object baz and `bar = to_object(foo)`, foo and bar will have a reference to
@@ -47,9 +56,9 @@ function array_pluck(array $array, $field, $filter = null) {
  * \return (stdClass) : converted data.
  * */
 function array_to_object($data) {
-	if(is_array($data) && (count($data) != count($data, COUNT_RECURSIVE)))
-		return (object) array_map('array_to_object', $data);
+	if(is_array($data))
+		return (object) (array_is_multidimensional($data) ? array_map('array_to_object', $data) : $data);
 	else
-		return (object) $data;
+		return $data;
 }
 
