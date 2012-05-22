@@ -2,6 +2,8 @@
 /** Image PlaceHolder for PHP.
  * Usage : iph.php?<WIDTH>x<HEIGHT>/<COLOR>
  * Ex : iph.php?800x600/FF00FF
+ * Author : Léo Peltier
+ * LICENSE : WTFPL
  * */
 
 return main();
