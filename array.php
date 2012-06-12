@@ -73,3 +73,64 @@ function object_to_array($data) {
 		return $data;
 }
 
+
+/** Merge a 'dotted' array into a standard array.
+ * \param $array (array) : the destination array.
+ * \param $patch (array) : the 'dotted' array.
+ * \return (array) : merge result.
+ * */
+function array_dot_merge(array $array, array $patch) {
+	$final = $array;
+	foreach($patch as $k => $v) {
+		$final = array_dot_set($final, $k, $v);
+	}
+	return $final;
+}
+
+
+/** Set a value of an array using a dotted path.
+ * \param $array (array) : the array to update.
+ * \param $key (string) : the array key in.a.dotted.form.
+ * \param $value (mixed) : the value to set.
+ * \return (array) : the updated array.
+ * */
+function array_dot_set(array $array, $key, $value) {
+	$final = $array;
+	if(strpos($key, '.') === false) {
+		$final[$key] = $value;
+		return $final;
+	}
+
+	$target = &$final;
+	$keys = explode('.', $key);
+	foreach($keys as $curKey) {
+		if(!array_key_exists($curKey, $target))
+			$target[$curKey] = array();
+		$target = &$target[$curKey];
+	}
+	$target = $value;
+
+	return $final;
+}
+
+
+/** Set a value of an array using a dotted path.
+ * \param $array (array) : the array to update.
+ * \param $key (string) : the array key in.a.dotted.form.
+ * \return (mixed) : the obtained value, null if not found.
+ * */
+function array_dot_get(array $array, $key) {
+	if(strpos($key, '.') === false)
+		return $array[$key];
+
+	$target = &$array;
+	$keys = explode('.', $key);
+	foreach($keys as $curKey) {
+		if(!array_key_exists($curKey, $target))
+			return null;
+		$target = &$target[$curKey];
+	}
+
+	return $target;
+}
+
