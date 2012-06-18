@@ -24,7 +24,7 @@ bool(true)
 Classes
 -------
 If you implement `__get` in a class, **always** implement `__isset`. Not doing
-it can lead to strage behavior:
+it can lead to strange behavior:
 ```php
 class Foo {
 	protected $bar = true;
