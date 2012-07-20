@@ -144,3 +144,23 @@ function array_dot_get(array $array, $key) {
 	return $target;
 }
 
+
+/** Filter the keys of an array via a whitelist.
+ * \param $array (array) : array to filter.
+ * \param $whitelist (array) : array of keys to keep.
+ * \return (array) : array containing only the whitelisted keys.
+ * */
+function array_whitelist(array $array, array $whitelist = array()) {
+	return array_intersect_key($array, array_flip($whitelist));
+}
+
+
+/** Filter the keys of an array via a blacklist.
+ * \param $array (array) : array to filter.
+ * \param $whitelist (array) : array of keys to ditch.
+ * \return (array) : $array minus the blacklisted keys.
+ * */
+function array_blacklist($array, $blacklist = array()) {
+	return array_diff_key($array, array_flip($blacklist));
+}
+
