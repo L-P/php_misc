@@ -6,6 +6,7 @@ known keys and **always** comment what keys are extracted.
 
 Example:
 ```php
+<?php
 function foo() {
 	return array('bacon' => 'good', 'beans' => 'meh');
 }
@@ -33,6 +34,7 @@ have a dangerous caveat: they have the [lowest operator precedence][1].
 
 Example:
 ```php
+<?php
 $a = true && false;
 $b = true AND false;
 
@@ -40,7 +42,7 @@ var_dump($a, $b);
 ```
 
 Output:
-```php
+```
 bool(false)
 bool(true)
 ```
@@ -54,6 +56,7 @@ bool(true)
 If you implement `__get` in a class, **always** implement `__isset`. Not doing
 it can lead to strange behavior:
 ```php
+<?php
 class Foo {
 	protected $bar = true;
 	public function __get($name) { return $this->$name; }
@@ -63,7 +66,7 @@ var_dump($foo->bar, empty($foo->bar));
 ```
 
 Output:
-```php
+```
 bool(true)
 bool(true)
 ```
