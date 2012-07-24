@@ -20,7 +20,7 @@ function array_combine_self() {
 	$args = func_get_args();
 	$array = null;
 
-	if((count($args) == 1) && is_array($args[0]))
+	if((count($args) === 1) && is_array($args[0]))
 		$array = array_unique($args[0]);
 	else
 		$array = array_unique($args);
@@ -53,7 +53,7 @@ function array_pluck(array $array, $field, $filter = null) {
  * \return true if the array is multidimensional, false otherwise.
  * */
 function array_is_multidimensional(array $array) {
-	return count($array) != count($array, COUNT_RECURSIVE);
+	return count($array) !== count($array, COUNT_RECURSIVE);
 }
 
 
