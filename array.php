@@ -33,13 +33,9 @@ function array_combine_self() {
  * an array of associative arrays.
  * \param $array (array) : array to pluck.
  * \param $field (string) : field name.
- * \param $filter (function) : f(v) -> bool.
  * \return array.
  * */
-function array_pluck(array $array, $field, $filter = null) {
-	if($filter)
-		$array = array_filter($array, $filter);
-
+function array_pluck(array $array, $field) {
 	$final = array();
 	foreach($array as $v) {
 		$final[] = $v[$field];
