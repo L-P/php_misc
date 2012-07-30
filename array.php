@@ -20,7 +20,7 @@ function array_combine_self() {
 	$args = func_get_args();
 	$array = null;
 
-	if((count($args) == 1) && is_array($args[0]))
+	if((count($args) === 1) && is_array($args[0]))
 		$array = array_unique($args[0]);
 	else
 		$array = array_unique($args);
@@ -33,13 +33,9 @@ function array_combine_self() {
  * an array of associative arrays.
  * \param $array (array) : array to pluck.
  * \param $field (string) : field name.
- * \param $filter (function) : f(v) -> bool.
  * \return array.
  * */
-function array_pluck(array $array, $field, $filter = null) {
-	if($filter)
-		$array = array_filter($array, $filter);
-
+function array_pluck(array $array, $field) {
 	$final = array();
 	foreach($array as $v) {
 		$final[] = $v[$field];
@@ -53,7 +49,7 @@ function array_pluck(array $array, $field, $filter = null) {
  * \return true if the array is multidimensional, false otherwise.
  * */
 function array_is_multidimensional(array $array) {
-	return count($array) != count($array, COUNT_RECURSIVE);
+	return count($array) !== count($array, COUNT_RECURSIVE);
 }
 
 
