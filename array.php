@@ -12,7 +12,7 @@
 
 /** Return a 'self-combined' array.
  * Ex : array('a', 'b') : array('a' => 'a', 'b' => 'b')
- * This function can take one array as a parameter or one or more scalar values 
+ * This function can take one array as a parameter or one or more scalar values
  * to be used as key/values.
  * \return (array) : combined array.
  * */
@@ -156,7 +156,7 @@ function array_whitelist(array $array, array $whitelist = array()) {
  * \param $whitelist (array) : array of keys to ditch.
  * \return (array) : $array minus the blacklisted keys.
  * */
-function array_blacklist($array, $blacklist = array()) {
+function array_blacklist(array $array, array $blacklist = array()) {
 	return array_diff_key($array, array_flip($blacklist));
 }
 
