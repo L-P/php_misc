@@ -160,3 +160,12 @@ function array_blacklist(array $array, array $blacklist = array()) {
 	return array_diff_key($array, array_flip($blacklist));
 }
 
+
+/** Check if something is iterable (ie. you can use `foreach` on it).
+ * \param $var (mixed) : value to test.
+ * \return (bool) : true if the value is iterable, false otherwise.
+ * */
+function is_iterable($var) {
+	return is_array($var) || $var instanceof \Traversable;
+}
+
